@@ -4,13 +4,9 @@ This project demonstrates the implementation of TCP and UDP servers and clients 
 
 ## Table of Contents
 - [Description](#description)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Usage](#features)
+- [Compilation](#Compilation)
 - [Examples](#examples)
-- [Supported Platforms](#supported-platforms)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Description
 
@@ -25,15 +21,29 @@ This project implements both TCP and UDP server and client programs using C++ fo
 - **Low latency**: Suitable for real-time applications.
 
 ## Features
-- Cross-platform support (Linux and Windows)
 - Example of both TCP and UDP protocols for server-client communication
-- Handling of multiple clients (for TCP)
+- Handling of multiple clients
 - Simple message exchange between client and server
 - Multi-threading support for handling multiple connections (TCP server)
 
-## Installation
+## Compilation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/tcp-udp-servers-clients.git
-   cd tcp-udp-servers-clients
+### To compile program on Windows
+g++ prog.cpp -o prog -lws2_32
+
+### To compile program on Linux
+g++ prog.cpp -o prog
+
+## Examples
+
+### Run TCP client
+./tcpclient IP:PORT SAMPLE.TXT
+
+### Run TCP server
+./tcpserver PORT
+
+### Run UDP client
+./tcpclient IP:PORT SAMPLE.TXT
+
+### Run UDP Server
+./udpserver FIRST_PORT - LAST_PORT
