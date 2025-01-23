@@ -1,49 +1,146 @@
-# TCP/UDP Servers and Clients in C++ (Linux and Windows)
+Извиняюсь за недоразумение! Вот обновленный README, который теперь включает описание как для TCP-сервера и клиента, так и для UDP-сервера и клиента.
 
-This project demonstrates the implementation of TCP and UDP servers and clients using C++ for both Linux and Windows platforms. The code provides basic examples of how to create both client-server and peer-to-peer communication using TCP and UDP protocols.
+---
 
-## Table of Contents
-- [Description](#description)
-- [Usage](#features)
-- [Compilation](#Compilation)
-- [Examples](#examples)
+# Сервер и клиент для обмена сообщениями (TCP и UDP)
 
-## Description
+Проект включает два типа серверов и клиентов: **TCP** и **UDP**. Серверы принимают сообщения, обрабатывают их и записывают в файл. Клиенты отправляют сообщения на сервер и отслеживают их статус.
 
-This project implements both TCP and UDP server and client programs using C++ for two major platforms: Linux and Windows. It aims to showcase the usage of socket programming for creating reliable (TCP) and fast, connectionless (UDP) communication. 
+## Описание
 
-### TCP:
-- **Reliable connection**: Ensures data is delivered in order.
-- **Flow control and congestion control**: Built-in mechanisms for efficient data transfer.
+### 1. **TCP сервер и клиент**
+- **TCP сервер** слушает входящие соединения от клиентов на одном порту.
+- Клиенты могут подключаться к серверу и отправлять сообщения.
+- Сервер записывает полученные сообщения в файл `msg.txt`.
 
-### UDP:
-- **Unreliable connection**: Data is sent without ensuring delivery.
-- **Low latency**: Suitable for real-time applications.
+### 2. **UDP сервер и клиент**
+- **UDP сервер** слушает несколько портов в указанном диапазоне.
+- Сервер обрабатывает входящие сообщения от клиентов и записывает их в файл.
+- Сервер удаляет неактивных клиентов через 30 секунд бездействия.
+- После получения сообщения "stop" сервер завершает работу.
+- **UDP клиент** отправляет сообщения на сервер, отслеживает их статус и получает подтверждения о получении.
 
-## Features
-- Example of both TCP and UDP protocols for server-client communication
-- Handling of multiple clients
-- Simple message exchange between client and server
-- Multi-threading support for handling multiple connections (TCP server)
+## Требования
 
-## Compilation
+- **C++ компилятор**: Убедитесь, что у вас установлен компилятор C++ (например, GCC, Clang или MSVC).
+- **Windows**: Клиент на Windows использует библиотеку Winsock.
+- **Linux/macOS**: Серверы работают на Unix-подобных системах (Linux, macOS).
 
-### To compile program on Windows
-g++ prog.cpp -o prog -lws2_32
+## Как начать
 
-### To compile program on Linux
-g++ prog.cpp -o prog
+### 1. Клонируйте репозиторий
 
-## Examples
+```bash
+git clone https://github.com/yourusername/udp-tcp-messaging.git
+cd udp-tcp-messaging
+```
 
-### Run TCP client
-./tcpclient IP:PORT SAMPLE.TXT
+### 2. Сборка серверов и клиентов
 
-### Run TCP server
-./tcpserver PORT
+#### **Linux/macOS (Серверы)**
 
-### Run UDP client
-./tcpclient IP:PORT SAMPLE.TXT
+Для сборки серверов на Linux/macOS используйте команду:
 
-### Run UDP Server
-./udpserver FIRST_PORT - LAST_PORT
+```bash
+g++ tcpserver.cpp -o tcpserver
+g++ udpserver.cpp -o udpserver
+```
+
+#### **Windows (Клиент)**
+
+Для Windows используйте MSVC или MinGW для сборки клиента:
+
+```bash
+cl tcpclient.cpp /link ws2_32.lib
+cl udpclient.cpp /link ws2_32.lib
+```
+
+### 3. Запуск серверов
+
+#### **TCP сервер**
+
+Запустите сервер на указанном порту:
+
+```bash
+./tcpserver <port>
+```
+
+Пример:
+```bash
+./tcpserver 5000
+```
+
+#### **UDP сервер**
+
+Запустите сервер, указав диапазон портов:
+
+```bash
+./udpserver <start_port> <end_port>
+```
+
+Пример:
+```bash
+./udpserver 5000 5010
+```
+
+### 4. Запуск клиентов
+
+#### **TCP клиент**
+
+Чтобы запустить клиент, укажите IP-адрес и порт сервера, а также имя файла с сообщениями:
+
+```bash
+./tcpclient <server_ip:port> <filename>
+```
+
+Пример:
+```bash
+./tcpclient 127.0.0.1:5000 messages.txt
+```
+
+#### **UDP клиент**
+
+Для UDP клиента аналогично, укажите IP-адрес и порт сервера, а также имя файла с сообщениями:
+
+```bash
+./udpclient <server_ip:port> <filename>
+```
+
+Пример:
+```bash
+./udpclient 127.0.0.1:5000 messages.txt
+```
+
+### 5. Формат файла с сообщениями
+
+Файл с сообщениями должен иметь следующий формат для каждой строки:
+
+```
+<дата> <AA> <BBB> <сообщение>
+```
+
+Пример:
+```
+01.01.2022 12 123 Привет, мир!
+02.01.2022 14 456 Это тестовое сообщение.
+```
+
+### 6. Остановка серверов
+
+- **TCP сервер** завершает работу после получения команды "stop" от клиента.
+- **UDP сервер** завершает работу при получении команды "stop" от любого клиента.
+
+## Файлы
+
+- **tcpserver.cpp**: TCP-сервер, который слушает порт и обрабатывает подключения клиентов, записывая сообщения в файл.
+- **tcpclient.cpp**: TCP-клиент, который подключается к серверу и отправляет сообщения.
+- **udpserver.cpp**: UDP-сервер, который слушает порты в диапазоне и обрабатывает сообщения от клиентов.
+- **udpclient.cpp**: UDP-клиент, который отправляет сообщения на сервер и отслеживает их статус.
+
+## Лицензия
+
+Этот проект распространяется по лицензии MIT — см. файл [LICENSE](LICENSE) для подробностей.
+
+---
+
+Теперь README включает описание всех компонентов проекта (TCP и UDP серверы и клиенты). Надеюсь, это подойдет для вашего проекта!
