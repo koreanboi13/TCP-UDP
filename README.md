@@ -38,7 +38,7 @@ cd TCP-UDP
 Для сборки серверов на Linux/macOS используйте команду:
 
 ```bash
-g++ tcpserver.cpp -o tcpserver
+g++ tcpclient.cpp -o tcpserver
 g++ udpserver.cpp -o udpserver
 ```
 
@@ -47,7 +47,7 @@ g++ udpserver.cpp -o udpserver
 Для Windows используйте MSVC или MinGW для сборки клиента:
 
 ```bash
-cl tcpclient.cpp /link ws2_32.lib
+cl tcpserver.cpp /link ws2_32.lib
 cl udpclient.cpp /link ws2_32.lib
 ```
 
